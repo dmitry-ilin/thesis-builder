@@ -1,0 +1,155 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title></title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+  <style>
+    .img {
+      text-align: center;
+    }
+    .img-caption {
+      text-align: center;
+    }
+
+    /*--------------
+      Sidebar Button
+    ---------------*/
+
+    #doc .fixed.launch.button {
+      position: fixed;
+      top: 2.5em;
+      left: 0px;
+
+      width: 55px;
+      height: auto;
+      white-space: nowrap;
+      overflow: hidden;
+      -webkit-transition:
+        0.3s width ease,
+        0.5s transform ease
+      ;
+      -moz-transition:
+        0.3s width ease,
+        0.5s transform ease
+      ;
+      -o-transition:
+        0.3s width ease,
+        0.5s transform ease
+      ;
+      -ms-transition:
+        0.3s width ease,
+        0.5s transform ease
+      ;
+      transition:
+        0.3s width ease,
+        0.5s transform ease
+      ;
+    }
+    #doc .launch.button .icon {
+      margin-left: 0px;
+    }
+
+
+    #doc .fixed.launch.button .text {
+      position: absolute;
+      white-space: nowrap;
+      top: auto;
+      left: 54px;
+      opacity: 0;
+      -webkit-transition:
+        0.3s opacity 0.3s
+      ;
+      -moz-transition:
+        0.3s opacity 0.3s
+      ;
+      -o-transition:
+        0.3s opacity 0.3s
+      ;
+      -ms-transition:
+        0.3s opacity 0.3s
+      ;
+      transition:
+        0.3s opacity 0.3s
+      ;
+    }
+    #doc .fixed.launch.button:hover {
+      width: 185px;
+    }
+    #doc .fixed.launch.button:hover .text {
+      opacity: 1;
+    }
+
+    /* Position Change */
+    #doc.pushable.left.overlay .fixed.launch.button {
+      transform: translate3d(0, 0, 0);
+    }
+    #doc.pushable.overlay.left.pushed .fixed.launch.button {
+      transform: translate3d(260px, 0, 0);
+    }
+    .sidebar > .menu {
+      padding-left: 0px;
+    }
+  </style>
+
+  <script
+      src="https://code.jquery.com/jquery-3.4.1.min.js"
+      integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+      crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+</head>
+<body id="doc" class="pushable">
+  <div class="ui very wide sidebar">
+  </div>
+
+  <div class="ui black big launch right attached fixed button">
+    <i class="content icon"></i>
+    <span class="text">Оглавление</span>
+  </div>
+
+  <div class="pusher">
+    <div class="ui text container basic segment">
+      {{ content | safe }}
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    $('h1, h2, h3, h4, h5, h6').each(function(i, el) {
+      $(this).attr('id', $(this).text().replace(/\s/g, '-').replace(/[\.,]*/g, '').toLowerCase());
+    });
+    $('table').addClass('ui compact padded selectable table');
+    var toc = $('ul').first();
+    var clone = toc.clone();
+    $('.sidebar').html(clone);
+    toc.remove();
+    $('h1#оглавление').remove();
+
+    clone
+      .addClass('ui small inverted vertical fluid menu')
+      .find('ul')
+      .addClass('ui small inverted vertical fluid menu');
+    clone.find('li').addClass('item');
+
+    $('.launch, .ui.sidebar a').on('click', function() {
+      $('.ui.sidebar').sidebar('toggle');
+    });
+
+    $(window).scroll(function() {
+      var scroll = $(this).scrollTop();
+      var headers = $('h1, h2, h3, h4, h5, h6').filter(function () {
+        return ($(this).offset().top <= scroll)
+      });
+
+      var hash = headers.last().attr('id') ? '#' + headers.last().attr('id') : '';
+      if (history.pushState) {
+        history.replaceState(null, null, hash);
+      } else {
+        location.hash = hash;
+      }
+    });
+  </script>
+</body>
+</html>

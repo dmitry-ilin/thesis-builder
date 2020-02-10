@@ -1,0 +1,17 @@
+{
+  "drawio": {
+    "path": "C:\\Program Files\\draw.io\\draw.io.exe"
+  },
+  "figure": {
+    "maxWidth": 650,
+    "maxHeight": 650
+  },
+  "srcPath": "src",
+  "outPath": "out",
+  "templates": {
+    "bibliography": "templates/gost.xml",
+    "docx": "templates/docx.njk",
+    "docxHeader": "templates/docxHeader.njk",
+    "html": "templates/html.njk"
+  }
+}
