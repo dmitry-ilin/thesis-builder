@@ -33,7 +33,7 @@ const findReplacement = (term, key, entry) => {
 
 module.exports = async function findTerms() {
   await new Promise((resolve) => {
-    Az.Morph.init('node_modules/az/dicts', resolve);
+    Az.Morph.init(path.configuredResolve('dictionary'), resolve);
   });
   const indexWithAssets = JSON.parse((await knife.storage.get('indexWithAssets')).data.toString());
 

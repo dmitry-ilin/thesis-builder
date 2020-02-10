@@ -11,7 +11,7 @@ const NMbrList = ['sing', 'plur'];
 
 module.exports = async function loadAssets() {
   await new Promise((resolve) => {
-    Az.Morph.init('node_modules/az/dicts', resolve);
+    Az.Morph.init(path.configuredResolve('dictionary'), resolve);
   });
   const index = {};
 
